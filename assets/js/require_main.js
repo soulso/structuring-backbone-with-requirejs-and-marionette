@@ -5,7 +5,9 @@ requirejs.config({
     jquery: 'vendor/jquery',
     underscore: 'vendor/underscore',
     backbone: 'vendor/backbone',
-    marionette : 'vendor/backbone.marionette'
+    marionette : 'vendor/backbone.marionette',
+
+    apps: "apps"
   },
   
   shim : {
@@ -30,7 +32,3 @@ requirejs(["jquery", "underscore", "backbone", "marionette"], function($, _, Bac
   window.Backbone = Backbone;
   console.log(Marionette);
 });
-
-// requirejs(["assets/js/app.js"], function(ContactManager) {
-//   console.log(ContactManager);
-// });

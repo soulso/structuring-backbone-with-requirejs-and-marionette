@@ -28,14 +28,17 @@
     <script data-main="./assets/js/require_main.js" src="./assets/js/vendor/require.js"></script>
 
     <!--
-    <script src="./assets/js/app.js"></script>
+    <script src="./assets/js/app.js"></script> DONE
     <script src="./assets/js/entities/contact.js"></script>
     <script src="./assets/js/apps/contacts/list/list_view.js"></script>
     <script src="./assets/js/apps/contacts/list/list_controller.js"></script>
+    -->
 
     <script type="text/javascript">
-      ContactManager.start();
+      require(["apps/../app"], function(ContactManager){
+        console.log(ContactManager);
+        ContactManager.start();
+      });
     </script>
-    -->
   </body>
 </html>
