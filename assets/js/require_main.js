@@ -1,7 +1,11 @@
 requirejs.config({
-  baseUrl: 'assets/js/vendor',
+  baseUrl: 'assets/js',
   paths : {
-    marionette : 'backbone.marionette'
+    json2: 'vendor/json2',
+    jquery: 'vendor/jquery',
+    underscore: 'vendor/underscore',
+    backbone: 'vendor/backbone',
+    marionette : 'vendor/backbone.marionette'
   },
   
   shim : {
