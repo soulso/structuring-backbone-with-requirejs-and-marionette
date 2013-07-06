@@ -6,6 +6,7 @@ requirejs.config({
     underscore: 'vendor/underscore',
     backbone: 'vendor/backbone',
     marionette : 'vendor/backbone.marionette',
+    tpl: 'vendor/tpl',
 
     apps: "apps",
     entities: "entities"

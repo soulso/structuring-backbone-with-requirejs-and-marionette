@@ -1,8 +1,8 @@
-define(["apps/../app"], function(ContactManager){
+define(["apps/../app", "tpl!apps/contacts/list/templates/list_item.tpl"], function(ContactManager, listItemTpl){
   ContactManager.module('ContactsApp.List', function(List, ContactManager, Backbone, Marionette, $, _){
     List.Contact = Backbone.Marionette.ItemView.extend({
       tagName: "li",
-      template: "#contact-list-item"
+      template: listItemTpl
     });
 
     List.Contacts = Backbone.Marionette.CollectionView.extend({
