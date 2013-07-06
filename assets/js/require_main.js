@@ -7,7 +7,8 @@ requirejs.config({
     backbone: 'vendor/backbone',
     marionette : 'vendor/backbone.marionette',
 
-    apps: "apps"
+    apps: "apps",
+    entities: "entities"
   },
   
   shim : {

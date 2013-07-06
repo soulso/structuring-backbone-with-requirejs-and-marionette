@@ -1,4 +1,4 @@
-define(["apps/../app"], function(ContactManager){
+define(["apps/../app", "entities/contact"], function(ContactManager){
   ContactManager.module('ContactsApp.List', function(List, ContactManager, Backbone, Marionette, $, _){
     List.Controller = {
       listContacts: function(){
