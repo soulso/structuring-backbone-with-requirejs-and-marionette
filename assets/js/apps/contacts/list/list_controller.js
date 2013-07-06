@@ -7,6 +7,10 @@ define(["apps/../app", "entities/contact", "apps/contacts/list/list_view"], func
         var contactsListView = new List.Contacts({
           collection: contacts
         });
+        
+        contactsListView.on("itemview:contact:delete", function(childView, model){
+          contacts.remove(model);
+        });
 
         ContactManager.mainRegion.show(contactsListView);
       }
