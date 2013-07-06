@@ -24,11 +24,3 @@ requirejs.config({
     }
   }
 });
-
-requirejs(["jquery", "underscore", "backbone", "marionette"], function($, _, Backbone, Marionette) {
-  console.log("jQuery version: ", $.fn.jquery);
-  console.log("_.identity(5): ", _.identity(5));
-  window.$ = $;
-  window.Backbone = Backbone;
-  console.log(Marionette);
-});
