@@ -17,7 +17,7 @@ define(["apps/../app",
         });
         
         contactsListView.on("itemview:contact:delete", function(childView, model){
-          contacts.remove(model);
+          model.destroy();
         });
 
         ContactManager.mainRegion.show(contactsListView);
