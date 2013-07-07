@@ -1,8 +1,27 @@
 define(["apps/../app",
+        "tpl!apps/contacts/list/templates/layout.tpl",
+        "tpl!apps/contacts/list/templates/panel.tpl",
         "tpl!apps/contacts/list/templates/list.tpl",
         "tpl!apps/contacts/list/templates/list_item.tpl"],
-       function(ContactManager, listTpl, listItemTpl){
+       function(ContactManager, layoutTpl, panelTpl, listTpl, listItemTpl){
   ContactManager.module('ContactsApp.List', function(List, ContactManager, Backbone, Marionette, $, _){
+    List.Layout = Marionette.Layout.extend({
+      template: layoutTpl,
+
+      regions: {
+        panelRegion: "#panel-region",
+        contactsRegion: "#contacts-region"
+      }
+    });
+
+    List.Panel = Marionette.ItemView.extend({
+      template: panelTpl,
+
+      triggers: {
+        'click button.js-new': "contact:new"
+      }
+    });
+
     List.Contact = Backbone.Marionette.ItemView.extend({
       tagName: "tr",
       template: listItemTpl,
@@ -56,7 +75,21 @@ define(["apps/../app",
       className: "table table-hover",
       template: listTpl,
       itemView: List.Contact,
-      itemViewContainer: "tbody"
+      itemViewContainer: "tbody",
+
+      initialize: function(){
+        this.listenTo(this.collection, "reset", function(){
+          this.appendHtml = function(collectionView, itemView, index){
+            collectionView.$el.append(itemView.el);
+          }
+        });
+      },
+
+      onCompositeCollectionRendered: function(){
+        this.appendHtml = function(collectionView, itemView, index){
+          collectionView.$el.prepend(itemView.el);
+        }
+      }
     });
   });
 

@@ -2,6 +2,7 @@ define(["apps/../app",
         "entities/contact",
         "common/views",
         "apps/contacts/list/list_view",
+        "apps/contacts/new/new_view",
         "apps/contacts/show/show_controller",
         "jquery-ui"],
        function(ContactManager){
@@ -13,9 +14,40 @@ define(["apps/../app",
 
         var fetchingContacts = ContactManager.request("contact:entities");
 
+        var contactsListLayout = new List.Layout();
+        var contactsListPanel = new List.Panel();
+
         $.when(fetchingContacts).done(function(contacts){
           var contactsListView = new List.Contacts({
             collection: contacts
+          });
+
+          contactsListLayout.on("show", function(){
+            contactsListLayout.panelRegion.show(contactsListPanel);
+            contactsListLayout.contactsRegion.show(contactsListView);
+          });
+
+          contactsListPanel.on("contact:new", function(){
+            var newContact = new ContactManager.Entities.Contact();
+
+            var view = new ContactManager.ContactsApp.New.Contact({
+              model: newContact
+            });
+
+            view.on("form:submit", function(data){
+              var highestId = contacts.max(function(c){ return c.id; }).get('id');
+              data.id = highestId + 1;
+              if(newContact.save(data)){
+                contacts.add(newContact);
+                view.trigger("dialog:close");
+                contactsListView.children.findByModel(newContact).flash("success");
+              }
+              else{
+                view.triggerMethod("form:data:invalid", newContact.validationError);
+              }
+            });
+
+            ContactManager.dialogRegion.show(view);
           });
 
           contactsListView.on("itemview:contact:show", function(childView, model){
@@ -24,14 +56,13 @@ define(["apps/../app",
 
           contactsListView.on("itemview:contact:edit", function(childView, model){
             var view = new ContactManager.ContactsApp.Edit.Contact({
-              model: model,
-              asModal: true
+              model: model
             });
 
             view.on("form:submit", function(data){
               if(model.save(data)){
                 childView.render();
-                ContactManager.dialogRegion.close();
+                view.trigger("dialog:close");
                 childView.flash("success");
               }
               else{
@@ -46,7 +77,7 @@ define(["apps/../app",
             model.destroy();
           });
 
-          ContactManager.mainRegion.show(contactsListView);
+          ContactManager.mainRegion.show(contactsListLayout);
         });
       }
     }
