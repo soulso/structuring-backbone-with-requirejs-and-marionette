@@ -19,7 +19,9 @@ define(["marionette"], function(Marionette){
   // because it gets called after the app starts. Using addInitializer ensures code is run even if app already running
   ContactManager.addInitializer(function(){
     if(Backbone.history){
-      Backbone.history.start();
+      require(["apps/contacts/contacts_app"], function () {
+        Backbone.history.start();
+      });
 
       if(this.getCurrentRoute() === ""){
         // to avoid circular dependency, use nested require
