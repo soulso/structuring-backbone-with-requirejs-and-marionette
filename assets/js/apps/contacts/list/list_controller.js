@@ -1,26 +1,32 @@
 define(["apps/../app",
         "entities/contact",
+        "common/views",
         "apps/contacts/list/list_view",
         "apps/contacts/show/show_controller"],
        function(ContactManager){
   ContactManager.module('ContactsApp.List', function(List, ContactManager, Backbone, Marionette, $, _){
     List.Controller = {
       listContacts: function(){
-        var contacts = ContactManager.request("contact:entities");
+        var loadingView = new ContactManager.Common.Views.Loading();
+        ContactManager.mainRegion.show(loadingView);
 
-        var contactsListView = new List.Contacts({
-          collection: contacts
-        });
+        var fetchingContacts = ContactManager.request("contact:entities");
 
-        contactsListView.on("itemview:contact:show", function(childView, model){
-          ContactManager.trigger("contact:show", model.get('id'));
-        });
-        
-        contactsListView.on("itemview:contact:delete", function(childView, model){
-          model.destroy();
-        });
+        $.when(fetchingContacts).done(function(contacts){
+          var contactsListView = new List.Contacts({
+            collection: contacts
+          });
 
-        ContactManager.mainRegion.show(contactsListView);
+          contactsListView.on("itemview:contact:show", function(childView, model){
+            ContactManager.trigger("contact:show", model.get('id'));
+          });
+
+          contactsListView.on("itemview:contact:delete", function(childView, model){
+            model.destroy();
+          });
+
+          ContactManager.mainRegion.show(contactsListView);
+        });
       }
     }
   });

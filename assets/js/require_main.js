@@ -8,6 +8,8 @@ requirejs.config({
     marionette : 'vendor/backbone.marionette',
     localstorage: 'vendor/backbone.localstorage',
     tpl: 'vendor/tpl',
+    spin: 'vendor/spin',
+    'spin.jquery': 'vendor/spin.jquery', // use quotes due to '.' in lib name
 
     apps: "apps",
     entities: "entities"
@@ -24,7 +26,8 @@ requirejs.config({
     marionette : {
       deps : ['backbone'],
       exports : 'Marionette'
-    }
+    },
+    'spin.jquery': ['spin', 'jquery'] // note no entry in paths because matches filename (discuss difference with marionette and localstorage paths)
   }
 });
 
