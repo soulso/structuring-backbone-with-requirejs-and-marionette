@@ -1,9 +1,10 @@
 define(["apps/../app",
         "tpl!apps/contacts/list/templates/layout.tpl",
         "tpl!apps/contacts/list/templates/panel.tpl",
+        "tpl!apps/contacts/list/templates/none.tpl",
         "tpl!apps/contacts/list/templates/list.tpl",
         "tpl!apps/contacts/list/templates/list_item.tpl"],
-       function(ContactManager, layoutTpl, panelTpl, listTpl, listItemTpl){
+       function(ContactManager, layoutTpl, panelTpl, noneTpl, listTpl, listItemTpl){
   ContactManager.module('ContactsApp.List', function(List, ContactManager, Backbone, Marionette, $, _){
     List.Layout = Marionette.Layout.extend({
       template: layoutTpl,
@@ -19,6 +20,23 @@ define(["apps/../app",
 
       triggers: {
         'click button.js-new': "contact:new"
+      },
+
+      events: {
+        'click button.js-filter': 'filterClicked'
+      },
+
+      ui: {
+        criterion: "input.js-filter-criterion"
+      },
+
+      filterClicked: function(){
+        var criterion = this.$el.find(".js-filter-criterion").val();
+        this.trigger("contacts:filter", criterion);
+      },
+
+      onSetFilterCriterion: function(criterion){
+        $(this.ui.criterion).val(criterion);
       }
     });
 
@@ -70,10 +88,17 @@ define(["apps/../app",
       }
     });
 
+    var NoContactsView = Backbone.Marionette.ItemView.extend({
+      template: noneTpl,
+      tagName: "tr",
+      className: "alert"
+    });
+
     List.Contacts = Backbone.Marionette.CompositeView.extend({
       tagName: "table",
       className: "table table-hover",
       template: listTpl,
+      emptyView: NoContactsView,
       itemView: List.Contact,
       itemViewContainer: "tbody",
 
