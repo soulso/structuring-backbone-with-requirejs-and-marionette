@@ -17,10 +17,11 @@ define(["marionette"], function(Marionette){
 
   // to avoid circular dependency, use nested require
   //
-  // need to keep this dependency so that the list controller is loaded when
-  // the "contacts:list" event gets triggered (otherwise the event gets triggered
-  // before there's a listener for it and nothing will happen)
-  require(["apps/contacts/contacts_app"], function () {
+  // we need all sub-applications to be loaded when we start the routing
+  // otherwise, a URL fragment already present in the URL would NOT trigger
+  // a routing action (since the sub-applications' routing controllers aren't
+  // yet listening)
+  require(["apps/all"], function () {
     // need to use addInitializer instead of ContactManager.on("initialize:after"),
     // because it gets called after the app starts. Using addInitializer ensures code is run even if app already running
     ContactManager.addInitializer(function(){
