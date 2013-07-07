@@ -8,7 +8,16 @@ define(["apps/../app",
     });
 
     Show.Contact = Marionette.ItemView.extend({
-      template: viewTpl
+      template: viewTpl,
+      
+      events: {
+        "click a.js-edit": "editClicked"
+      },
+
+      editClicked: function(e){
+        e.preventDefault();
+        this.trigger("contact:edit", this.model);
+      }
     });
   });
 

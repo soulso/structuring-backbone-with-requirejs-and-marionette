@@ -3,8 +3,10 @@ requirejs.config({
   paths : {
     json2: 'vendor/json2',
     jquery: 'vendor/jquery',
+    'jquery-ui': 'vendor/jquery-ui',
     underscore: 'vendor/underscore',
     backbone: 'vendor/backbone',
+    'backbone.syphon': 'vendor/backbone.syphon',
     marionette : 'vendor/backbone.marionette',
     localstorage: 'vendor/backbone.localstorage',
     tpl: 'vendor/tpl',
@@ -23,10 +25,12 @@ requirejs.config({
       deps : ['jquery', 'underscore', 'json2'],
       exports : 'Backbone'
     },
+    'backbone.syphon': ['backbone'],
     marionette : {
       deps : ['backbone'],
       exports : 'Marionette'
     },
+    'jquery-ui': ['jquery'],
     'spin.jquery': ['spin', 'jquery'] // note no entry in paths because matches filename (discuss difference with marionette and localstorage paths)
   }
 });
