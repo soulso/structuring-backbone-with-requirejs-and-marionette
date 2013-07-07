@@ -15,25 +15,23 @@ define(["marionette"], function(Marionette){
     return Backbone.history.fragment
   };
 
-  // need to use addInitializer instead of ContactManager.on("initialize:after"),
-  // because it gets called after the app starts. Using addInitializer ensures code is run even if app already running
-  ContactManager.addInitializer(function(){
-    if(Backbone.history){
-      require(["apps/contacts/contacts_app"], function () {
+  // to avoid circular dependency, use nested require
+  //
+  // need to keep this dependency so that the list controller is loaded when
+  // the "contacts:list" event gets triggered (otherwise the event gets triggered
+  // before there's a listener for it and nothing will happen)
+  require(["apps/contacts/contacts_app"], function () {
+    // need to use addInitializer instead of ContactManager.on("initialize:after"),
+    // because it gets called after the app starts. Using addInitializer ensures code is run even if app already running
+    ContactManager.addInitializer(function(){
+      if(Backbone.history){
         Backbone.history.start();
-      });
 
-      if(this.getCurrentRoute() === ""){
-        // to avoid circular dependency, use nested require
-        //
-        // need to keep this dependency so that the list controller is loaded when
-        // the "contacts:list" event gets triggered (otherwise the event gets triggered
-        // before there's a listener for it and nothing will happen)
-        require(["apps/contacts/contacts_app"], function () {
-          ContactManager.trigger("contacts:list");
-        });
+        if(this.getCurrentRoute() === ""){
+            ContactManager.trigger("contacts:list");
+        }
       }
-    }
+    });
   });
 
   return ContactManager;
