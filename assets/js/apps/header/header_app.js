@@ -7,7 +7,6 @@ define(["apps/../app", "apps/header/list/list_controller"], function(ContactMana
     };
 
     Header.on("start", function(){
-      console.log("header started");
       API.listHeader();
     });
   });
