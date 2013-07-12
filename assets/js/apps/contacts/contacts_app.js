@@ -1,7 +1,8 @@
 define(["apps/../app",
         "apps/contacts/list/list_controller",
         "apps/contacts/show/show_controller",
-        "apps/contacts/edit/edit_controller"], // TODO refactor into apps/contacts/all.js
+        "apps/contacts/edit/edit_controller", // TODO refactor into apps/contacts/all.js
+        "apps/header/list/list_controller"],
        function(ContactManager){
   ContactManager.module('ContactsApp', function(ContactsApp, ContactManager, Backbone, Marionette, $, _){
     ContactsApp.Router = Marionette.AppRouter.extend({
@@ -16,14 +17,17 @@ define(["apps/../app",
     var API = {
       listContacts: function(criterion){
         ContactsApp.List.Controller.listContacts(criterion);
+        ContactManager.HeaderApp.List.Controller.setActiveHeader("contacts");
       },
 
       showContact: function(id){
         ContactsApp.Show.Controller.showContact(id);
+        ContactManager.HeaderApp.List.Controller.setActiveHeader("contacts");
       },
 
       editContact: function(id){
         ContactsApp.Edit.Controller.editContact(id);
+        ContactManager.HeaderApp.List.Controller.setActiveHeader("contacts");
       }
     };
 

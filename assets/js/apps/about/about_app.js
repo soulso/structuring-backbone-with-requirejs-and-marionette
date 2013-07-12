@@ -1,4 +1,4 @@
-define(["apps/../app", "apps/about/show/show_controller"],
+define(["apps/../app", "apps/about/show/show_controller", "apps/header/list/list_controller"],
        function(ContactManager){
   ContactManager.module('AboutApp', function(AboutApp, ContactManager, Backbone, Marionette, $, _){
     AboutApp.Router = Marionette.AppRouter.extend({
@@ -10,6 +10,7 @@ define(["apps/../app", "apps/about/show/show_controller"],
     var API = {
       showAbout: function(){
         AboutApp.Show.Controller.showAbout();
+        ContactManager.HeaderApp.List.Controller.setActiveHeader("about");
       }
     };
 

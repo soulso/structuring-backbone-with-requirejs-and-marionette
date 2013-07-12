@@ -3,6 +3,7 @@ define(["marionette", "apps/config/marionette/regions/dialog"], function(Marione
   var ContactManager = new Marionette.Application();
 
   ContactManager.addRegions({
+    headerRegion: "#header-region",
     mainRegion: "#main-region",
     dialogRegion: Marionette.Region.Dialog.extend({
       el: "#dialog-region"
