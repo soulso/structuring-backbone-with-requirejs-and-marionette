@@ -1,5 +1,5 @@
 define(["apps/../app",
-        "entities/header" // BUG HERE !!! Missing ","
+        "entities/header",
         "apps/header/list/list_view"],
        function(ContactManager){
   ContactManager.module('HeaderApp.List', function(List, ContactManager, Backbone, Marionette, $, _){
