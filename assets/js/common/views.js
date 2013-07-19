@@ -1,5 +1,4 @@
 define(["apps/../app", "tpl!common/templates/loading.tpl", "spin.jquery"], function(ContactManager, loadingTpl, spinLib){
-  console.log(spinLib);
   ContactManager.module('Common.Views', function(Views, ContactManager, Backbone, Marionette, $, _){
     Views.Loading = Marionette.ItemView.extend({
       template: loadingTpl,

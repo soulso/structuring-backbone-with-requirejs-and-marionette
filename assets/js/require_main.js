@@ -17,7 +17,7 @@ requirejs.config({
     apps: "apps",
     entities: "entities"
   },
-  
+
   shim : {
     underscore : {
       exports : '_'
@@ -37,6 +37,26 @@ requirejs.config({
   }
 });
 
-require(["apps/../app", "apps/header/header_app"], function(ContactManager){
-  ContactManager.start();
+require(["apps/../app"], function(ContactManager){
+
+
+  // to avoid circular dependency, use nested require
+  //
+  // we need all sub-applications to be loaded when we start the routing
+  // otherwise, a URL fragment already present in the URL would NOT trigger
+  // a routing action (since the sub-applications' routing controllers aren't
+  // yet listening)
+  require(["apps/all"], function () {
+    ContactManager.on("initialize:after", function(){
+      if(Backbone.history){
+        Backbone.history.start();
+
+        if(this.getCurrentRoute() === ""){
+            ContactManager.trigger("contacts:list");
+        }
+      }
+    });
+
+    ContactManager.start();
+  });
 });

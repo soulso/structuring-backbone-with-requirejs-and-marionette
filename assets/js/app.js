@@ -19,25 +19,5 @@ define(["marionette", "apps/config/marionette/regions/dialog"], function(Marione
     return Backbone.history.fragment
   };
 
-  // to avoid circular dependency, use nested require
-  //
-  // we need all sub-applications to be loaded when we start the routing
-  // otherwise, a URL fragment already present in the URL would NOT trigger
-  // a routing action (since the sub-applications' routing controllers aren't
-  // yet listening)
-  require(["apps/all"], function () {
-    // need to use addInitializer instead of ContactManager.on("initialize:after"),
-    // because it gets called after the app starts. Using addInitializer ensures code is run even if app already running
-    ContactManager.addInitializer(function(){
-      if(Backbone.history){
-        Backbone.history.start();
-
-        if(this.getCurrentRoute() === ""){
-            ContactManager.trigger("contacts:list");
-        }
-      }
-    });
-  });
-
   return ContactManager;
 });
