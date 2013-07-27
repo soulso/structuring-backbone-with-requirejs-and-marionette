@@ -1,5 +1,5 @@
-ContactManager.module('ContactsApp.Edit', function(ContactEdit, ContactManager, Backbone, Marionette, $, _){
-  ContactEdit.Controller = {
+ContactManager.module('ContactsApp.Edit', function(Edit, ContactManager, Backbone, Marionette, $, _){
+  Edit.Controller = {
     editContact: function(id){
       var loadingView = new ContactManager.Common.Views.Loading({
         title: "Artificial Loading Delay",
@@ -11,7 +11,7 @@ ContactManager.module('ContactsApp.Edit', function(ContactEdit, ContactManager, 
       $.when(fetchingContact).done(function(contact){
         var view;
         if(contact !== undefined){
-          view = new ContactEdit.Contact({
+          view = new Edit.Contact({
             model: contact,
             generateTitle: true
           });
