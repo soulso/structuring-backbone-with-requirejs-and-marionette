@@ -1,18 +1,25 @@
-ContactManager.module('ContactsApp.Show', function(Show, ContactManager, Backbone, Marionette, $, _){
-  Show.MissingContact = Marionette.ItemView.extend({
-    template: "#missing-contact-view"
-  });
-  
-  Show.Contact = Marionette.ItemView.extend({
-    template: "#contact-view",
+define(["app",
+        "tpl!apps/contacts/show/templates/missing.tpl",
+        "tpl!apps/contacts/show/templates/view.tpl"],
+       function(ContactManager, missingTpl, viewTpl){
+  ContactManager.module('ContactsApp.Show.View', function(View, ContactManager, Backbone, Marionette, $, _){
+    View.MissingContact = Marionette.ItemView.extend({
+      template: missingTpl 
+    });
+    
+    View.Contact = Marionette.ItemView.extend({
+      template: viewTpl, 
 
-    events: {
-      "click a.js-edit": "editClicked"
-    },
+      events: {
+        "click a.js-edit": "editClicked"
+      },
 
-    editClicked: function(e){
-      e.preventDefault();
-      this.trigger("contact:edit", this.model);
-    }
+      editClicked: function(e){
+        e.preventDefault();
+        this.trigger("contact:edit", this.model);
+      }
+    });
   });
+
+  return ContactManager.ContactsApp.Show.View;
 });
